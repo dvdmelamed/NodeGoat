@@ -29,13 +29,9 @@ jobs:
           export JIT_ACCESS_TOKEN=$(curl -X POST -d "{\"clientId\":\"$JIT_API_CLIENT_ID\", \"secret\":\"$JIT_API_CLIENT_SECRET\"}" -H "Content-Type: application/json" https://api.cto.jitdev.io/authentication/login | jq -r .accessToken)
           echo $JIT_ACCESS_TOKEN
           curl -H "Authorization: Bearer $JIT_ACCESS_TOKEN" -H "Accept: application/sarif+json" https://api.cto.jitdev.io/findings/ > /tmp/findings.sarif
-          cat /tmp/findings.sarif
 
-
-
-      # - name: Upload SARIF file
-      #   uses: github/codeql-action/upload-sarif@v1
-      #   with:
-      #     # Path to SARIF file relative to the root of the repository
-      #     sarif_file: /tmp/findings.sarif
-          
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          # Path to SARIF file relative to the root of the repository
+          sarif_file: /tmp/findings.sarif
