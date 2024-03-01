@@ -1,0 +1,37 @@
+name: Upload SARIF
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  sarif:
+    name: upload sarif report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@master
+
+      - name: 'Setup jq'
+        uses: dcarbone/install-jq-action@v2
+        with:
+          version: '1.7'
+          force: 'false'
+      
+      - name: Get findings
+        shell: bash    
+        env:
+           JIT_API_CLIENT_ID: ${{ secrets.JIT_API_CLIENT_ID }}
+           JIT_API_CLIENT_SECRET: ${{ secrets.JIT_API_CLIENT_SECRET }}
+        run: |
+          echo '{"a": "b"}' | jq .  
+
+
+
+      # - name: Upload SARIF file
+      #   uses: github/codeql-action/upload-sarif@v1
+      #   with:
+      #     # Path to SARIF file relative to the root of the repository
+      #     sarif_file: /tmp/findings.sarif
+          
