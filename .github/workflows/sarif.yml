@@ -26,7 +26,8 @@ jobs:
            JIT_API_CLIENT_ID: ${{ secrets.JIT_API_CLIENT_ID }}
            JIT_API_CLIENT_SECRET: ${{ secrets.JIT_API_CLIENT_SECRET }}
         run: |
-          export JIT_ACCESS_TOKEN=$(curl -X POST -d "{\"clientId\"=\"$JIT_API_CLIENT_ID\", \"secret\"=\"$JIT_API_CLIENT_SECRET\"}" https://api.cto.jitdev.io/authentication/login  | jq -r .accessToken)
+          export JIT_ACCESS_TOKEN=$(curl -X POST -d "{\"clientId\":\"$JIT_API_CLIENT_ID\", \"secret\":\"$JIT_API_CLIENT_SECRET\"}" -H "Content-Type: application/json" https://api.cto.jitdev.io/authentication/login | jq -r .accessToken)
+          echo $JIT_ACCESS_TOKEN
           curl -H "Authorization: Bearer $JIT_ACCESS_TOKEN" -H "Accept: application/sarif+json" https://api.cto.jitdev.io/findings/ > /tmp/findings.sarif
           cat /tmp/findings.sarif
 
